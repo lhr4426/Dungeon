@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
 
     // Private Settings
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
     private Rigidbody rb;
 
 
@@ -34,6 +34,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        // 여기 있는게 너무 맘에 안드는데 방법이 없나... 
+        // 생성 순서 때문에 어쩔 수 없이 여기다 뒀는데 너무 거슬림
+        playerInput.Player.Interact.started
+            += PlayerManager.Player.interaction.OnInteraction;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -50,14 +55,16 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Look.performed += OnLook;
         playerInput.Player.Look.canceled += OnLookStop;
 
-        playerInput.Player.Enable();
-        playerInput.Change.Enable();
+        playerInput.Player.Inventory.started += OnInventory;
 
+        playerInput.Player.Enable();
     }
+    
+    
 
     private void LateUpdate()
     {
-        Look();
+        if(canLook) Look();
     }
 
     private void FixedUpdate()
@@ -133,8 +140,15 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    void LookToggle()
+    {
+        canLook = !canLook;
+        Cursor.lockState = canLook ? CursorLockMode.Locked : CursorLockMode.None;
+    }
+
     void OnInventory(InputAction.CallbackContext context)
     {
-
+        LookToggle();
     }
+
 }

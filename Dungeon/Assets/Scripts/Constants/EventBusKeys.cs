@@ -8,3 +8,4 @@ public static class EventBusKeys
     public const string ChangeHungerKey = "ChangeHunger";
     public const string ChangeStaminaKey = "ChangeStamina";
 }
+
