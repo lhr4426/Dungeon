@@ -5,9 +5,9 @@
 
 ## 기술 스택
 
-| C# | .Net | Unity }
+| C# | .Net | Unity |
 | :--------: | :--------: | :--------: |
-|   ![csharp]    |   ![dotnet]    |   ![untiy]    |
+|   ![csharp]    |   ![dotnet]    |   ![unity]    |
 
 <br>
 
