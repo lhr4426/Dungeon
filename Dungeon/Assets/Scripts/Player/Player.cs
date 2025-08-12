@@ -8,10 +8,12 @@ public class Player : MonoBehaviour
     public PlayerController controller;
     public PlayerCondition condition;
     public Interaction interaction;
-    public Inventory inventory;
+    public PlayerEffect effect;
 
     public ItemData itemData;
     public Action addItem;
+
+    public Transform dropPosition;
 
     void Awake()
     {
@@ -20,7 +22,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerCondition>();
         interaction = GetComponent<Interaction>();
-        inventory = GetComponent<Inventory>();
+        effect = GetComponent<PlayerEffect>();
     }
 
 }

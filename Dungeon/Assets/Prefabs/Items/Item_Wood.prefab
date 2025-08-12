@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6262186670030393322}
   - component: {fileID: -5348220214938823380}
   - component: {fileID: 8836166082393585405}
+  - component: {fileID: -4234788357185041688}
   m_Layer: 7
   m_Name: Item_Wood
   m_TagString: Untagged
@@ -68,6 +69,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0114183, y: 0.21540892, z: 0.21820354}
   m_Center: {x: 0.0008201599, y: 0.11908391, z: 0.00790453}
+--- !u!54 &-4234788357185041688
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6737758283270550676}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &7557783736174865207
 GameObject:
   m_ObjectHideFlags: 0

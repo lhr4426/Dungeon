@@ -38,12 +38,18 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
     public void Heal(float amount)
     {
-        health.Add(amount);
+        if (amount >= 0) health.Add(amount);
+        else health.Substract(-amount);
     }
 
     public void Eat(float amount)
     {
         hunger.Add(amount);
+    }
+
+    public void Rest(float amount)
+    {
+        stamina.Add(amount);
     }
 
     public bool UseStamina(float amount)

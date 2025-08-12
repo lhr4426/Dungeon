@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,18 +14,24 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMoveInput;
 
     [Header("Look Settings")]
-    public Transform CameraContainer;
+    public Transform cameraContainer;
     public float minXLook;
     public float maxXLook;
     public bool canLook = true;
     public float lookSensitivity;
+    public Transform tpsCameraContainer;
+    public bool isFPS;
+
 
     private Vector2 mouseDelta;
     private float camCurXRot;
+    private float colliderHalf;
+
 
     // Private Settings
     public PlayerInput playerInput;
     private Rigidbody rb;
+    public Action inventory;
 
 
     private void Awake()
@@ -40,8 +47,11 @@ public class PlayerController : MonoBehaviour
             += PlayerManager.Player.interaction.OnInteraction;
 
         Cursor.lockState = CursorLockMode.Locked;
-    }
+        isFPS = true;
 
+        CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+        colliderHalf = capsuleCollider.height / 2;
+    }
 
     private void OnEnable()
     {
@@ -56,6 +66,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Look.canceled += OnLookStop;
 
         playerInput.Player.Inventory.started += OnInventory;
+
+        playerInput.Player.ChangeView.started += OnChangeView;
 
         playerInput.Player.Enable();
     }
@@ -107,7 +119,8 @@ public class PlayerController : MonoBehaviour
         camCurXRot += mouseDelta.y * lookSensitivity;
         camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook);
 
-        CameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
+        if(isFPS) cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
+        else tpsCameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
     }
 
@@ -122,17 +135,18 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
+        
         Ray[] rays = new Ray[4]
         {
-            new Ray(transform.position + (transform.forward * 0.2f) + transform.up * 0.01f, Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + transform.up * 0.01f, Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + transform.up * 0.01f, Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) + transform.up * 0.01f, Vector3.down)
+            new Ray(transform.position + (transform.forward * 0.2f), Vector3.down),
+            new Ray(transform.position + (-transform.forward * 0.2f), Vector3.down),
+            new Ray(transform.position + (transform.right * 0.2f), Vector3.down),
+            new Ray(transform.position + (-transform.right * 0.2f), Vector3.down)
         };
 
         for(int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
+            if (Physics.Raycast(rays[i], colliderHalf + 0.01f, groundLayerMask))
             {
                 return true;
             }
@@ -142,13 +156,35 @@ public class PlayerController : MonoBehaviour
 
     void LookToggle()
     {
-        canLook = !canLook;
-        Cursor.lockState = canLook ? CursorLockMode.Locked : CursorLockMode.None;
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
     }
 
     void OnInventory(InputAction.CallbackContext context)
     {
+        inventory?.Invoke();
         LookToggle();
+    }
+
+    void OnChangeView(InputAction.CallbackContext context)
+    {
+        ChangeView();
+    }
+
+
+    public void ChangeView()
+    {
+        if (isFPS)
+        {
+            Camera.main.transform.SetParent(tpsCameraContainer.transform, false);
+        }
+        else
+        {
+            Camera.main.transform.SetParent(cameraContainer.transform, false);
+        }
+            
+        isFPS = !isFPS;
     }
 
 }
