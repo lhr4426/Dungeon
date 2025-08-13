@@ -197,6 +197,10 @@ public class InventoryUI : MonoBehaviour
     public void OnDropButton()
     {
         ThrowItem(selectedItem.item);
+        if(selectedItem.equipped)
+        {
+            PlayerManager.Player.equipment.Unequip();
+        }
         RemoveSelectedItem();
     }
 
@@ -207,7 +211,7 @@ public class InventoryUI : MonoBehaviour
         {
             if (slots[selectedIndex].equipped)
             {
-                // Unequip(selectedIndex);
+                Unequip(selectedIndex);
             }
             selectedItem.item = null;
             ClearSelectedItemWindow();
@@ -220,4 +224,35 @@ public class InventoryUI : MonoBehaviour
         return false;
     }
 
+    public void OnEquipButton()
+    {
+        if (slots[curEquipIndex].equipped)
+        {
+            Unequip(curEquipIndex);
+        }
+
+        slots[selectedIndex].equipped = true;
+        curEquipIndex = selectedIndex;
+        PlayerManager.Player.equipment.EquipNew(selectedItem.item);
+        UpdateUI();
+
+        SelectItem(selectedIndex);
+    }
+
+    void Unequip(int index)
+    {
+        slots[index].equipped = false;
+        PlayerManager.Player.equipment.Unequip();
+        UpdateUI();
+
+        if(selectedIndex == index)
+        {
+            SelectItem(selectedIndex);
+        }
+    }
+
+    public void OnUnequipButton()
+    {
+        Unequip(selectedIndex);
+    }
 }

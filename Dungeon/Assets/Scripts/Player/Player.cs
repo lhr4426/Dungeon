@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public PlayerCondition condition;
     public Interaction interaction;
     public PlayerEffect effect;
+    public Equipment equipment;
 
     public ItemData itemData;
     public Action addItem;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
         condition = GetComponent<PlayerCondition>();
         interaction = GetComponent<Interaction>();
         effect = GetComponent<PlayerEffect>();
+        equipment =GetComponent<Equipment>();
     }
 
 }

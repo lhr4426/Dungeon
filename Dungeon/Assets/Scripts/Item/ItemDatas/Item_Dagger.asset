@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1ad67cc4ea60f147aa0dd87f1ac6b62, type: 3}
-  m_Name: Item_Sword
+  m_Name: Item_Dagger
   m_EditorClassIdentifier: 
-  displayName: "\uAC80"
-  description: "\uAF64\uB098 \uB0A0\uCE74\uB85C\uC6CC \uBCF4\uC785\uB2C8\uB2E4."
+  displayName: "\uB2E8\uAC80"
+  description: "\uB4E4\uBA74 \uBE68\uB77C\uC9C8 \uAC83 \uAC19\uC2B5\uB2C8\uB2E4!"
   type: 0
-  icon: {fileID: 21300000, guid: 4f2f320a217307a48a107491b1d17ebb, type: 3}
-  dropPrefab: {fileID: 5561655978102669527, guid: 95b70317b9df54c47bc2d87494964ff8, type: 3}
+  icon: {fileID: 21300000, guid: 1082a6dc731d7674585b8a96c4ad1b1b, type: 3}
+  dropPrefab: {fileID: 8267784801789527461, guid: 04b49c98ddafe744fac7265704792f9e, type: 3}
   canStack: 0
   maxStackAmount: 0
   consumables: []
-  equipPrefab: {fileID: 4959602624203092841, guid: 4411ecc2d962002498945d3dfeee2f1d, type: 3}
+  equipPrefab: {fileID: 4479163848942457934, guid: 90cd168484056804ab8006f5d9587c44, type: 3}
   actionName: 

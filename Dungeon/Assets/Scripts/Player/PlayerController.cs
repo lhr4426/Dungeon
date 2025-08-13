@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed;
+    private float originalMoveSpeed;
     public float jumpPower;
     public LayerMask groundLayerMask;
+    private bool onWall;
 
     private Vector2 curMoveInput;
 
@@ -21,11 +23,15 @@ public class PlayerController : MonoBehaviour
     public float lookSensitivity;
     public Transform tpsCameraContainer;
     public bool isFPS;
+    public GameObject fpsEquipCamera;
+    public LayerMask fpsMask;
+    public LayerMask tpsMask;
 
 
     private Vector2 mouseDelta;
     private float camCurXRot;
-    private float colliderHalf;
+    private float colliderWidthHalf;
+    private float colliderHeightHalf;
 
 
     // Private Settings
@@ -50,7 +56,10 @@ public class PlayerController : MonoBehaviour
         isFPS = true;
 
         CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
-        colliderHalf = capsuleCollider.height / 2;
+        colliderHeightHalf = capsuleCollider.height / 2;
+        colliderWidthHalf = capsuleCollider.radius / 2;
+
+        originalMoveSpeed = moveSpeed;
     }
 
     private void OnEnable()
@@ -81,6 +90,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        onWall = OnWall();
+        rb.useGravity = !onWall;
         Move();
     }
 
@@ -96,12 +107,23 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        Vector3 dir = transform.forward * curMoveInput.y
+        if (!onWall)
+        {
+            Vector3 dir = transform.forward * curMoveInput.y
             + transform.right * curMoveInput.x;
-        dir *= moveSpeed;
-        // y축 속도는 그대로 유지
-        dir.y = rb.velocity.y;
-        rb.velocity = dir;
+            dir *= moveSpeed;
+            // y축 속도는 그대로 유지
+            dir.y = rb.velocity.y;
+            rb.velocity = dir;
+        }
+        else
+        {
+            Vector3 dir = transform.up * curMoveInput.y
+                + transform.right * curMoveInput.x;
+            dir *= moveSpeed;
+            dir.z = rb.velocity.z;
+            rb.velocity = dir;
+        }
     }
 
     void OnLook(InputAction.CallbackContext context)
@@ -127,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputAction.CallbackContext context)
     {
-        if(IsGrounded())
+        if(IsGrounded() || onWall)
         {
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
@@ -146,7 +168,27 @@ public class PlayerController : MonoBehaviour
 
         for(int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], colliderHalf + 0.01f, groundLayerMask))
+            if (Physics.Raycast(rays[i], colliderHeightHalf + 0.01f, groundLayerMask))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool OnWall()
+    {
+        Ray[] rays = new Ray[4]
+        {
+            new Ray(transform.position, Vector3.forward),
+            new Ray(transform.position, Vector3.back),
+            new Ray(transform.position, Vector3.right),
+            new Ray(transform.position, Vector3.left)
+        };
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            if (Physics.Raycast(rays[i], colliderWidthHalf + 0.5f, groundLayerMask))
             {
                 return true;
             }
@@ -178,13 +220,26 @@ public class PlayerController : MonoBehaviour
         if (isFPS)
         {
             Camera.main.transform.SetParent(tpsCameraContainer.transform, false);
+            fpsEquipCamera.SetActive(false);
+            Camera.main.cullingMask = tpsMask;
         }
         else
         {
             Camera.main.transform.SetParent(cameraContainer.transform, false);
+            fpsEquipCamera.SetActive(true);
+            Camera.main.cullingMask = fpsMask;
         }
             
         isFPS = !isFPS;
     }
 
+    public void ChangeSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+
+    public void ResetSpeed()
+    {
+        moveSpeed = originalMoveSpeed;
+    }
 }
