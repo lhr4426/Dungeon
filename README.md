@@ -1,5 +1,10 @@
 # 스파르타 내일배움캠프 유니티 11기 6주차 Dungeon
 
+<p align="center">
+<br>
+  <img src="./Images/Playing.gif">
+  <br>
+</p> 
 
 ## 프로젝트 소개
 
