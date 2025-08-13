@@ -8,6 +8,8 @@ public class LaserObject : MonoBehaviour
     public Transform endObj;
     public int damage;
     public float damageRate;
+    public bool isOn;
+    public bool IsOn { get { return isOn; } }
 
     Vector3 startCenter;
     Vector3 endCenter;
@@ -15,6 +17,12 @@ public class LaserObject : MonoBehaviour
     float distance;
     Ray ray;
     float lastDamageTime;
+
+
+    private void Awake()
+    {
+        isOn = true;
+    }
 
     private void Start()
     {
@@ -34,12 +42,15 @@ public class LaserObject : MonoBehaviour
 
     void Update()
     {
-        CheckRay();
+        if (isOn)
+        {
+            CheckRay();
+        }
     }
 
     void CheckRay()
     {
-        // Debug.DrawRay(startCenter, dir, Color.red);
+        Debug.DrawRay(startCenter, dir * distance, Color.red);
 
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, distance))
@@ -65,5 +76,11 @@ public class LaserObject : MonoBehaviour
     Vector3 GetCenter(Transform tf)
     {
         return tf.GetComponent<Renderer>().bounds.center;
+    }
+
+    public bool ToggleButton()
+    {
+        isOn = !isOn;
+        return isOn;
     }
 }

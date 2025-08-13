@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private float originalMoveSpeed;
     public float jumpPower;
     public LayerMask groundLayerMask;
+    public LayerMask platformLayerMask;
     private bool onWall;
 
     private Vector2 curMoveInput;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     // Private Settings
     public PlayerInput playerInput;
-    private Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     public Action inventory;
 
 
@@ -153,6 +154,36 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
+        if (IsPlatformShooter(out RaycastHit hit))
+        {
+            Debug.Log("ÇÃ·§Æû¿¡ ´êÀ½");
+            if(hit.collider.TryGetComponent(out PlatformShooter shooter))
+            {
+                shooter.Shoot();
+            }
+        }
+    }
+
+    bool IsPlatformShooter(out RaycastHit hit)
+    {
+        hit = new RaycastHit();
+
+        Ray[] rays = new Ray[4]
+        {
+            new Ray(transform.position + (transform.forward * 0.2f), Vector3.down),
+            new Ray(transform.position + (-transform.forward * 0.2f), Vector3.down),
+            new Ray(transform.position + (transform.right * 0.2f), Vector3.down),
+            new Ray(transform.position + (-transform.right * 0.2f), Vector3.down)
+        };
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            if (Physics.Raycast(rays[i], out hit, colliderHeightHalf + 0.01f, platformLayerMask))
+            {
+                return true;
+            }
+        } 
+        return false;
     }
 
     bool IsGrounded()
