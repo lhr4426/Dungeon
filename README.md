@@ -30,7 +30,7 @@
 - [x] 장비 장착 : 단검 추가. 단검을 들면 속도가 빨라짐
 - [x] 레이저 트랩 : 두 오브젝트의 센터를 구해서 그 센터에서 반대편 센터로 레이저를 쏘도록 함. (번외 : 몬스터는 데미지를 거의 바로 입고, 플레이어는 0.5초마다 입음)
 - [x] 상호작용 가능한 오브젝트 표시 : 레이저 트랩이랑 연동해서 레이저를 끄고 킬 수 있게 함
-- [ ] 플랫폼 발사기
+- [x] 플랫폼 발사기 : PlatformShooter 클래스를 따로 만들어서 구현
 - [x] 발전된 AI : 물을 Not Walkable에서 Water로 바꾸고 가중치를 5로 설정 + Obstacle 추가
 
 <br>
@@ -48,7 +48,7 @@
 
 [개발 1일차](https://lhr4426.pages.dev/2025-%EC%8A%A4%ED%8C%8C%EB%A5%B4%ED%83%80-%EB%82%B4%EB%B0%B0%EC%BA%A0-%EC%9C%A0%EB%8B%88%ED%8B%B0-11%EA%B8%B0/%EB%B3%B8%EC%BA%A0%ED%94%84/%EB%82%B4%EC%9D%BC%EB%B0%B0%EC%9B%80%EC%BA%A0%ED%94%84-%EB%B3%B8%EC%BA%A0%ED%94%84---250811)
 [개발 2일차](https://lhr4426.pages.dev/2025-%EC%8A%A4%ED%8C%8C%EB%A5%B4%ED%83%80-%EB%82%B4%EB%B0%B0%EC%BA%A0-%EC%9C%A0%EB%8B%88%ED%8B%B0-11%EA%B8%B0/%EB%B3%B8%EC%BA%A0%ED%94%84/%EB%82%B4%EC%9D%BC%EB%B0%B0%EC%9B%80%EC%BA%A0%ED%94%84-%EB%B3%B8%EC%BA%A0%ED%94%84---250812)
-[개발 3일차]()
+[개발 3일차](https://lhr4426.pages.dev/2025-%EC%8A%A4%ED%8C%8C%EB%A5%B4%ED%83%80-%EB%82%B4%EB%B0%B0%EC%BA%A0-%EC%9C%A0%EB%8B%88%ED%8B%B0-11%EA%B8%B0/%EB%B3%B8%EC%BA%A0%ED%94%84/%EB%82%B4%EC%9D%BC%EB%B0%B0%EC%9B%80%EC%BA%A0%ED%94%84-%EB%B3%B8%EC%BA%A0%ED%94%84---250813)
 
 ## 라이센스
 
